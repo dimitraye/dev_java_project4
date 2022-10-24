@@ -29,16 +29,22 @@ public class ParkingService {
 
     public void processIncomingVehicle() {
         try{
+            String vehicleRegNumber = getVehichleRegNumber();
+            if (ticketDAO.checkParkVehicule(vehicleRegNumber)) {
+                throw new Exception("Error vehicule is already parked.");
+            }
+
+            if (ticketDAO.isClient(vehicleRegNumber)) {
+                System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+            }
+
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
-                String vehicleRegNumber = getVehichleRegNumber();
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
                 Date inTime = new Date();
                 Ticket ticket = new Ticket();
-                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
-                //ticket.setId(ticketID);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
@@ -101,6 +107,8 @@ public class ParkingService {
         try{
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+            ticket.setClient(ticketDAO.isClient(vehicleRegNumber));
+
             Date outTime = new Date();
             ticket.setOutTime(outTime);
             fareCalculatorService.calculateFare(ticket);
