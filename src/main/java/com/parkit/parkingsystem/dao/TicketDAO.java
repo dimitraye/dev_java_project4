@@ -86,4 +86,47 @@ public class TicketDAO {
         }
         return false;
     }
+
+    public boolean checkParkVehicule(String vehicleRegNumber) {
+        Connection con = null;
+        boolean isParked = false;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.CHECK_VEHICLE_REGISTRATION);
+            ps.setString(1,vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                isParked = true;
+            }
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+        }catch (Exception ex){
+            logger.error("Error when checking if vehicule is already parked",ex);
+        }finally {
+            dataBaseConfig.closeConnection(con);
+        }
+        return isParked;
+    }
+
+
+    public boolean isClient(String vehicleRegNumber) {
+        Connection con = null;
+        boolean isClient = false;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.CHECK_VEHICLE_RECURRENT);
+            ps.setString(1,vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                isClient = true;
+            }
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+        }catch (Exception ex){
+            logger.error("Error when checking if the client is a recurrent client",ex);
+        }finally {
+            dataBaseConfig.closeConnection(con);
+        }
+        return isClient;
+    }
 }
