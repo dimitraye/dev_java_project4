@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
  /**
  * Main class of the project
  */
-//
+// Comments
 public class App {
     /**
      *
