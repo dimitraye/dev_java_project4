@@ -9,6 +9,7 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ParkingService {
@@ -44,7 +45,7 @@ public class ParkingService {
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
-                Date inTime = new Date();
+                LocalDateTime inTime = LocalDateTime.now().withNano(0);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
@@ -109,9 +110,12 @@ public class ParkingService {
         try{
             String vehicleRegNumber = getVehichleRegNumber();
 
-            ticket = ticketDAO.getTicket(vehicleRegNumber);
+            ticket = ticketDAO.getTicket(vehicleRegNumber, true);
+            if (ticket == null) {
+                throw new IllegalArgumentException("There's no ticket assiociated to this registration number.");
+            }
             ticket.setClient(ticketDAO.isClient(vehicleRegNumber));
-            Date outTime = new Date();
+            LocalDateTime outTime = LocalDateTime.now().withNano(0);
             ticket.setOutTime(outTime);
             fareCalculatorService.calculateFare(ticket);
             if(ticketDAO.updateTicket(ticket)) {

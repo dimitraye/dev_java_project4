@@ -58,7 +58,7 @@ public class ParkingDataBaseIT {
     public void testParkingACar(){
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         Ticket ticket = parkingService.processIncomingVehicle();
-        Ticket ticketFromDb = ticketDAO.getTicket(ticket.getVehicleRegNumber());
+        Ticket ticketFromDb = ticketDAO.getTicket(ticket.getVehicleRegNumber(), true);
         //TRAITEMENT 1 : check that a ticket is actualy saved in DB
         assertNotNull(ticketFromDb);
 
@@ -72,7 +72,7 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         Ticket ticket = parkingService.processExitingVehicle();
         // TODO: check that the fare generated and out time are populated correctly in the database
-        Ticket ticketFromDB = ticketDAO.getTicket(ticket.getVehicleRegNumber());
+        Ticket ticketFromDB = ticketDAO.getTicket(ticket.getVehicleRegNumber(), false);
         //1 : check that the fare generated are populated correctly in the database
         //assertEquals(ticket.getPrice(), ticketFromDB.getPrice());
 
@@ -81,9 +81,8 @@ public class ParkingDataBaseIT {
         //String europeanDatePattern = "dd.MM.yyyy";
         //DateTimeFormatter europeanDateFormatter = DateTimeFormatter.ofPattern(europeanDatePattern);
         //System.out.println(europeanDateFormatter.format(LocalDate.of(2016, 7, 31)));
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        assertEquals(formatter.format(ticket.getOutTime()), formatter.format(ticketFromDB.getOutTime()));
+        assertEquals(ticket.getOutTime().format(formatter), ticketFromDB.getOutTime().format(formatter));
     }
-
 }

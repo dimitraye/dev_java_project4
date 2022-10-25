@@ -3,6 +3,7 @@ package com.parkit.parkingsystem.service;
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 public class FareCalculatorService {
@@ -11,13 +12,14 @@ public class FareCalculatorService {
     public final double REDUCTION_CLIENT = 0.95;
 
     public void calculateFare(Ticket ticket){
-        if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
+
+        if( (ticket.getOutTime() == null) || (ticket.getOutTime().isBefore(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
 
-        long duration = ticket.getOutTime().getTime() - ticket.getInTime().getTime();
-        long durationInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+        long durationInMinutes = ChronoUnit.MINUTES.between(ticket.getInTime(), ticket.getOutTime());
         double reductionClient = ticket.isClient() ? REDUCTION_CLIENT : 1;
+
         if (durationInMinutes < FREE_TIME_THIRTY_MINS) {
           ticket.setPrice(Fare.RATE_UNDER_HALF_HOUR);
           return;
