@@ -9,6 +9,7 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ParkingService {
@@ -27,7 +28,8 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
-    public void processIncomingVehicle() {
+    public Ticket processIncomingVehicle() {
+        Ticket ticket = new Ticket();
         try{
             String vehicleRegNumber = getVehichleRegNumber();
             if (ticketDAO.checkParkVehicule(vehicleRegNumber)) {
@@ -43,8 +45,7 @@ public class ParkingService {
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
-                Date inTime = new Date();
-                Ticket ticket = new Ticket();
+                LocalDateTime inTime = LocalDateTime.now().withNano(0);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
@@ -58,6 +59,7 @@ public class ParkingService {
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
         }
+        return ticket;
     }
 
     private String getVehichleRegNumber() throws Exception {
@@ -103,13 +105,17 @@ public class ParkingService {
         }
     }
 
-    public void processExitingVehicle() {
+    public Ticket processExitingVehicle() {
+        Ticket ticket = null;
         try{
             String vehicleRegNumber = getVehichleRegNumber();
-            Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-            ticket.setClient(ticketDAO.isClient(vehicleRegNumber));
 
-            Date outTime = new Date();
+            ticket = ticketDAO.getTicket(vehicleRegNumber, true);
+            if (ticket == null) {
+                throw new IllegalArgumentException("There's no ticket assiociated to this registration number.");
+            }
+            ticket.setClient(ticketDAO.isClient(vehicleRegNumber));
+            LocalDateTime outTime = LocalDateTime.now().withNano(0);
             ticket.setOutTime(outTime);
             fareCalculatorService.calculateFare(ticket);
             if(ticketDAO.updateTicket(ticket)) {
@@ -124,5 +130,6 @@ public class ParkingService {
         }catch(Exception e){
             logger.error("Unable to process exiting vehicle",e);
         }
+        return ticket;
     }
 }
