@@ -71,16 +71,12 @@ public class ParkingDataBaseIT {
         testParkingACar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         Ticket ticket = parkingService.processExitingVehicle();
-        // TODO: check that the fare generated and out time are populated correctly in the database
         Ticket ticketFromDB = ticketDAO.getTicket(ticket.getVehicleRegNumber(), false);
         //1 : check that the fare generated are populated correctly in the database
-        //assertEquals(ticket.getPrice(), ticketFromDB.getPrice());
+        assertEquals(ticket.getPrice(), ticketFromDB.getPrice());
 
 
         //2 : check that out time are populated correctly in the database
-        //String europeanDatePattern = "dd.MM.yyyy";
-        //DateTimeFormatter europeanDateFormatter = DateTimeFormatter.ofPattern(europeanDatePattern);
-        //System.out.println(europeanDateFormatter.format(LocalDate.of(2016, 7, 31)));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         assertEquals(ticket.getOutTime().format(formatter), ticketFromDB.getOutTime().format(formatter));

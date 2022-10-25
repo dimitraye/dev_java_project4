@@ -51,10 +51,10 @@ public class ParkingSpotDAO {
             return (updateRowCount == 1);
         }catch (Exception ex){
             logger.error("Error updating parking info",ex);
-            return false;
         }finally {
             dataBaseConfig.closeConnection(con);
         }
+        return false;
     }
 
     public boolean getParkingAvailability(int number) {
@@ -76,8 +76,8 @@ public class ParkingSpotDAO {
             logger.error("Error fetching next available slot",ex);
         }finally {
             dataBaseConfig.closeConnection(con);
-            return avvailability;
         }
+        return avvailability;
     }
 
 
