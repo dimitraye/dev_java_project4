@@ -15,7 +15,7 @@ public class InputReaderUtil {
      * Object that will contain the simple inputs like int, double, Strings, etc.
      */
     // Read inputs
-    private static Scanner scan = new Scanner(System.in);
+    private static Scanner scan = new Scanner(System.in, "UTF-8");
     /**
      * To have different types of messages and more detailed.
      */

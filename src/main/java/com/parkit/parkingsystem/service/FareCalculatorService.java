@@ -15,19 +15,19 @@ public class FareCalculatorService {
      * This constant will be used in order to compare if the client stayed in the parking for less than 30 minutes.
      */
     // Constant int that represent thirty minutes.
-    public final int FREE_TIME_THIRTY_MINS = 30;
+    public static final int FREE_TIME_THIRTY_MINS = 30;
 
     /**
      * This constant will be used in order to compare if the client stayed in the parking for less than 60 minutes.
      */
     // Constant int that represent sixty minutes.
-    public final int MINUTES_IN_HOUR = 60;
+    public static final int MINUTES_IN_HOUR = 60;
 
     /**
      * This constant will be used in order to reduce the price of the parking by 5%.
      */
     //Constant int that represent a 5% reduction for the price.
-    public final double REDUCTION_CLIENT = 0.95;
+    public static final double REDUCTION_CLIENT = 0.95;
 
     /**
      * This method calcul the price.
