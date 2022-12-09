@@ -44,7 +44,7 @@ public class ParkingSpot {
      * This number acts as an Id.
      * @return number.
      */
-    /
+
     public int getId() {
         return number;
     }
