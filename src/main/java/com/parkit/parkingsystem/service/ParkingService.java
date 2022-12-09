@@ -9,36 +9,79 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
+/**
+ * This class is in charge of all the services related to the parking.
+ */
+//
 public class ParkingService {
 
+    /**
+     * To have different types of messages and more detailed.
+     */
+    //Logger is used to make messages with more details.
     private static final Logger logger = LogManager.getLogger("ParkingService");
 
+    /**
+     *  Properti that allow to use the class FareCalculatorService's methods.
+     */
+    // Properti that allow to use the class's methods.
     private static FareCalculatorService fareCalculatorService = new FareCalculatorService();
 
+    /**
+     *  Properti that allow to use the class InputReaderUtil's methods.
+     */
+    // Properti that allow to use the class's methods.
     private InputReaderUtil inputReaderUtil;
+    /**
+     *  Properti that allow to use the class ParkingSpotDAO's methods.
+     */
+    // Properti that allow to use the class's methods.
     private ParkingSpotDAO parkingSpotDAO;
+    /**
+     *  Properti that allow to use the class TicketDAO's methods.
+     */
+    // Properti that allow to use the class's methods.
     private  TicketDAO ticketDAO;
 
+    /**
+     * Allow to use the properties that have been created above.
+     * @param inputReaderUtil
+     * @param parkingSpotDAO
+     * @param ticketDAO
+     */
+    //
     public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO){
         this.inputReaderUtil = inputReaderUtil;
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
     }
 
-    public void processIncomingVehicle() {
+    /**
+     * This method treats about the processus that need to be done when a vehicule enters the parking.
+     * @return a ticket.
+     */
+    // A vehicule enters the parking.
+    public Ticket processIncomingVehicle() {
+        Ticket ticket = new Ticket();
         try{
+            String vehicleRegNumber = getVehichleRegNumber();
+            if (ticketDAO.checkParkVehicule(vehicleRegNumber)) {
+                throw new Exception("Error vehicule is already parked.");
+            }
+
+            if (ticketDAO.isClient(vehicleRegNumber)) {
+                System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+            }
+
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
-                String vehicleRegNumber = getVehichleRegNumber();
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
-                Date inTime = new Date();
-                Ticket ticket = new Ticket();
-                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
-                //ticket.setId(ticketID);
+                LocalDateTime inTime = LocalDateTime.now().withNano(0);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
@@ -52,13 +95,25 @@ public class ParkingService {
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
         }
+        return ticket;
     }
 
+    /**
+     * This method get the registration number of the vehicule.
+     * @return the registration number of the vehicule.
+     * @throws Exception
+     */
+    // Get the registration number of the vehicule the return it.
     private String getVehichleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+    /**
+     * Method that get a parking spot for the vehicule.
+     * @return a parking spot.
+     */
+    // Get a parking Spot.
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber=0;
         ParkingSpot parkingSpot = null;
@@ -78,6 +133,11 @@ public class ParkingService {
         return parkingSpot;
     }
 
+    /**
+     * Method that get the type of the vehicule.
+     * @return the type of the vehicule.
+     */
+    // Get the type of the vehicule.
     private ParkingType getVehichleType(){
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
@@ -97,11 +157,22 @@ public class ParkingService {
         }
     }
 
-    public void processExitingVehicle() {
+    /**
+     * This method treats about the processus that need to be done when a vehicule leaves the parking.
+     * @return a ticket.
+     */
+    // A vehicule leaves the parking.
+    public Ticket processExitingVehicle() {
+        Ticket ticket = null;
         try{
             String vehicleRegNumber = getVehichleRegNumber();
-            Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-            Date outTime = new Date();
+
+            ticket = ticketDAO.getTicket(vehicleRegNumber, true);
+            if (ticket == null) {
+                throw new IllegalArgumentException("There's no ticket assiociated to this registration number.");
+            }
+            ticket.setClient(ticketDAO.isClient(vehicleRegNumber));
+            LocalDateTime outTime = LocalDateTime.now().withNano(0);
             ticket.setOutTime(outTime);
             fareCalculatorService.calculateFare(ticket);
             if(ticketDAO.updateTicket(ticket)) {
@@ -116,5 +187,6 @@ public class ParkingService {
         }catch(Exception e){
             logger.error("Unable to process exiting vehicle",e);
         }
+        return ticket;
     }
 }
