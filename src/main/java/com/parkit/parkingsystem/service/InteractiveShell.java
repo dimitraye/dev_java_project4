@@ -12,57 +12,59 @@ import org.apache.logging.log4j.Logger;
 // Interractive interface.
 public class InteractiveShell {
 
-    /**
-     * To have different types of messages and more detailed.
-     */
-    //Logger is used to make messages with more details.
-    private static final Logger logger = LogManager.getLogger("InteractiveShell");
+  /**
+   * To have different types of messages and more detailed.
+   */
+  //Logger is used to make messages with more details.
+  private static final Logger logger = LogManager.getLogger("InteractiveShell");
 
-    /**
-     * This method loads the interface
-     */
-    // Load the interface
-    public static void loadInterface(){
-        logger.info("App initialized!!!");
-        System.out.println("Welcome to Parking System!");
+  /**
+   * This method loads the interface
+   */
+  // Load the interface
+  public static void loadInterface() {
+    logger.info("App initialized!!!");
+    System.out.println("Welcome to Parking System!");
 
-        boolean continueApp = true;
-        InputReaderUtil inputReaderUtil = new InputReaderUtil();
-        ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO();
-        TicketDAO ticketDAO = new TicketDAO();
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+    boolean continueApp = true;
+    InputReaderUtil inputReaderUtil = new InputReaderUtil();
+    ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO();
+    TicketDAO ticketDAO = new TicketDAO();
+    ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
-        while(continueApp){
-            loadMenu();
-            int option = inputReaderUtil.readSelection();
-            switch(option){
-                case 1: {
-                    parkingService.processIncomingVehicle();
-                    break;
-                }
-                case 2: {
-                    parkingService.processExitingVehicle();
-                    break;
-                }
-                case 3: {
-                    System.out.println("Exiting from the system!");
-                    continueApp = false;
-                    break;
-                }
-                default: System.out.println("Unsupported option. Please enter a number corresponding to the provided menu");
-            }
+    while (continueApp) {
+      loadMenu();
+      int option = inputReaderUtil.readSelection();
+      switch (option) {
+        case 1: {
+          parkingService.processIncomingVehicle();
+          break;
         }
+        case 2: {
+          parkingService.processExitingVehicle();
+          break;
+        }
+        case 3: {
+          System.out.println("Exiting from the system!");
+          continueApp = false;
+          break;
+        }
+        default:
+          System.out.println(
+              "Unsupported option. Please enter a number corresponding to the provided menu");
+      }
     }
+  }
 
-    /**
-     * This method load the interface of the menu.
-     */
-    // Load the menu.
-    private static void loadMenu(){
-        System.out.println("Please select an option. Simply enter the number to choose an action");
-        System.out.println("1 New Vehicle Entering - Allocate Parking Space");
-        System.out.println("2 Vehicle Exiting - Generate Ticket Price");
-        System.out.println("3 Shutdown System");
-    }
+  /**
+   * This method load the interface of the menu.
+   */
+  // Load the menu.
+  private static void loadMenu() {
+    System.out.println("Please select an option. Simply enter the number to choose an action");
+    System.out.println("1 New Vehicle Entering - Allocate Parking Space");
+    System.out.println("2 Vehicle Exiting - Generate Ticket Price");
+    System.out.println("3 Shutdown System");
+  }
 
 }

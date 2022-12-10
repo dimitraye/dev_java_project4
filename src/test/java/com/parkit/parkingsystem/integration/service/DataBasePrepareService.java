@@ -7,28 +7,31 @@ import java.sql.PreparedStatement;
 
 public class DataBasePrepareService {
 
-    DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+  DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
 
-    public void clearDataBaseEntries(){
-        Connection connection = null;
-        PreparedStatement ps = null;
-        try{
-            connection = dataBaseTestConfig.getConnection();
-            //set parking entries to available
-            ps = connection.prepareStatement("update parking set available = true");
-            ps.execute();
+  /**
+   * Clear the entris of the database.
+   */
+  public void clearDataBaseEntries() {
+    Connection connection = null;
+    PreparedStatement ps = null;
+    try {
+      connection = dataBaseTestConfig.getConnection();
+      //set parking entries to available
+      ps = connection.prepareStatement("update parking set available = true");
+      ps.execute();
 
-            //clear ticket entries;
-            ps = connection.prepareStatement("truncate table ticket");
-            ps.execute();
+      //clear ticket entries;
+      ps = connection.prepareStatement("truncate table ticket");
+      ps.execute();
 
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally {
-            dataBaseTestConfig.closeConnection(connection);
-            dataBaseTestConfig.closePreparedStatement(ps);
-        }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      dataBaseTestConfig.closeConnection(connection);
+      dataBaseTestConfig.closePreparedStatement(ps);
     }
+  }
 
 
 }
