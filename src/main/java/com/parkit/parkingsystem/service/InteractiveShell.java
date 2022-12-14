@@ -9,19 +9,16 @@ import org.apache.logging.log4j.Logger;
 /**
  * This class as a graphical interface in the shell between the code and the client.
  */
-// Interractive interface.
 public class InteractiveShell {
 
   /**
    * To have different types of messages and more detailed.
    */
-  //Logger is used to make messages with more details.
   private static final Logger logger = LogManager.getLogger("InteractiveShell");
 
   /**
    * This method loads the interface
    */
-  // Load the interface
   public static void loadInterface() {
     logger.info("App initialized!!!");
     System.out.println("Welcome to Parking System!");
@@ -59,7 +56,6 @@ public class InteractiveShell {
   /**
    * This method load the interface of the menu.
    */
-  // Load the menu.
   private static void loadMenu() {
     System.out.println("Please select an option. Simply enter the number to choose an action");
     System.out.println("1 New Vehicle Entering - Allocate Parking Space");

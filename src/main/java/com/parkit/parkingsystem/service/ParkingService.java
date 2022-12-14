@@ -21,29 +21,24 @@ public class ParkingService {
   /**
    * To have different types of messages and more detailed.
    */
-  //Logger is used to make messages with more details.
   private static final Logger logger = LogManager.getLogger("ParkingService");
 
   /**
    * Properti that allow to use the class FareCalculatorService's methods.
    */
-  // Properti that allow to use the class's methods.
   private static FareCalculatorService fareCalculatorService = new FareCalculatorService();
 
   /**
    * Properti that allow to use the class InputReaderUtil's methods.
    */
-  // Properti that allow to use the class's methods.
   private InputReaderUtil inputReaderUtil;
   /**
    * Properti that allow to use the class ParkingSpotDAO's methods.
    */
-  // Properti that allow to use the class's methods.
   private ParkingSpotDAO parkingSpotDAO;
   /**
    * Properti that allow to use the class TicketDAO's methods.
    */
-  // Properti that allow to use the class's methods.
   private TicketDAO ticketDAO;
 
   /**
@@ -66,7 +61,6 @@ public class ParkingService {
    *
    * @return a ticket.
    */
-  // A vehicule enters the parking.
   public Ticket processIncomingVehicle() {
     Ticket ticket = new Ticket();
     try {
@@ -84,7 +78,7 @@ public class ParkingService {
       if (parkingSpot != null && parkingSpot.getId() > 0) {
         parkingSpot.setAvailable(false);
         parkingSpotDAO.updateParking(
-            parkingSpot);//allot this parking space and mark it's availability as false
+            parkingSpot);
 
         LocalDateTime inTime = LocalDateTime.now().withNano(0);
         ticket.setParkingSpot(parkingSpot);
@@ -110,7 +104,6 @@ public class ParkingService {
    * @return the registration number of the vehicule.
    * @throws Exception
    */
-  // Get the registration number of the vehicule the return it.
   private String getVehichleRegNumber() throws Exception {
     System.out.println("Please type the vehicle registration number and press enter key");
     return inputReaderUtil.readVehicleRegistrationNumber();
@@ -121,7 +114,6 @@ public class ParkingService {
    *
    * @return a parking spot.
    */
-  // Get a parking Spot.
   public ParkingSpot getNextParkingNumberIfAvailable() {
     int parkingNumber = 0;
     ParkingSpot parkingSpot = null;
@@ -146,7 +138,6 @@ public class ParkingService {
    *
    * @return the type of the vehicule.
    */
-  // Get the type of the vehicule.
   private ParkingType getVehichleType() {
     System.out.println("Please select vehicle type from menu");
     System.out.println("1 CAR");
@@ -171,7 +162,6 @@ public class ParkingService {
    *
    * @return a ticket.
    */
-  // A vehicule leaves the parking.
   public Ticket processExitingVehicle() {
     Ticket ticket = null;
     try {
@@ -191,9 +181,9 @@ public class ParkingService {
         parkingSpot.setAvailable(true);
         parkingSpotDAO.updateParking(parkingSpot);
         System.out.println("Please pay the parking fare:" + ticket.getPrice());
-        System.out.println(
-            "Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" +
-                outTime);
+        System.out.println("Recorded out-time for vehicle number:"
+            + ticket.getVehicleRegNumber() + " is:"
+            + outTime);
       } else {
         System.out.println("Unable to update ticket information. Error occurred");
       }

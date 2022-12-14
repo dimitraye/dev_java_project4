@@ -3,31 +3,20 @@ package com.parkit.parkingsystem.model;
 import com.parkit.parkingsystem.constants.ParkingType;
 
 /**
- * Model of the Parking Spot
+ * Model of the Parking Spot.
  */
 //
 public class ParkingSpot {
 
-    /**
-     * Number represent the number of the spot.
-     */
-    //Numer of the spot.
     private int number;
 
-    /**
-     * Type of parking spot (car / bike).
-     */
-    // Parking spot's type.
     private ParkingType parkingType;
 
-    /**
-     * Status of the availability of a spot.
-     */
     // Availability of a spot.
     private boolean isAvailable;
 
     /**
-     *
+     * Verify if a parking spot is empty or already taken.
      * @param number
      * @param parkingType
      * @param isAvailable
@@ -44,7 +33,6 @@ public class ParkingSpot {
      * This number acts as an Id.
      * @return number.
      */
-
     public int getId() {
         return number;
     }
@@ -53,7 +41,6 @@ public class ParkingSpot {
      *
      * @param number
      */
-    //
     public void setId(int number) {
         this.number = number;
     }
@@ -62,7 +49,6 @@ public class ParkingSpot {
      *
      * @return
      */
-    //
     public ParkingType getParkingType() {
         return parkingType;
     }
@@ -71,7 +57,6 @@ public class ParkingSpot {
      *
      * @param parkingType
      */
-    //
     public void setParkingType(ParkingType parkingType) {
         this.parkingType = parkingType;
     }
@@ -80,7 +65,6 @@ public class ParkingSpot {
      * Boolean that say if the parking spot is available.
      * @return isAvailable.
      */
-    //Boolean .
     public boolean isAvailable() {
         return isAvailable;
     }
@@ -89,11 +73,15 @@ public class ParkingSpot {
      * Method that set the value of available into isAvailable.
      * @param available.
      */
-    // Affect available to isAvailable.
     public void setAvailable(boolean available) {
         isAvailable = available;
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -102,6 +90,10 @@ public class ParkingSpot {
         return number == that.number;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         return number;
