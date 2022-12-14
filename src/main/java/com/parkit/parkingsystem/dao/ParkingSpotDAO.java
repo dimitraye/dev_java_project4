@@ -43,7 +43,6 @@ public class ParkingSpotDAO {
   }
 
   public boolean updateParking(ParkingSpot parkingSpot) {
-    //update the availability fo that parking slot
     Connection con = null;
     PreparedStatement ps = null;
     try {
@@ -71,7 +70,6 @@ public class ParkingSpotDAO {
     try {
       con = dataBaseConfig.getConnection();
       ps = con.prepareStatement(DBConstants.GET_PARKING_AVAILABILITY);
-      //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
       ps.setInt(1, number);
       rs = ps.executeQuery();
       if (rs.next()) {

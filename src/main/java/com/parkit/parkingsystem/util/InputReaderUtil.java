@@ -8,18 +8,15 @@ import java.util.Scanner;
 /**
  * This class will read different inputs.
  */
-// Read different inputs.
 public class InputReaderUtil {
 
   /**
    * Object that will contain the simple inputs like int, double, Strings, etc.
    */
-  // Read inputs
   private static Scanner scan = new Scanner(System.in, "UTF-8");
   /**
    * To have different types of messages and more detailed.
    */
-  //Logger is used to make messages with more details
   private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
   /**
@@ -27,7 +24,6 @@ public class InputReaderUtil {
    *
    * @return input.
    */
-  // Read the choice made by the user.
   public int readSelection() {
     try {
       int input = Integer.parseInt(scan.nextLine());
@@ -45,7 +41,6 @@ public class InputReaderUtil {
    * @return the number of the vehicule.
    * @throws Exception
    */
-  // Read the number registration of the vehicule.
   public String readVehicleRegistrationNumber() throws Exception {
     try {
       String vehicleRegNumber = scan.nextLine();
