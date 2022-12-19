@@ -71,7 +71,7 @@ public class ParkingSpot {
 
     /**
      * Method that set the value of available into isAvailable.
-     * @param available.
+     * @param available
      */
     public void setAvailable(boolean available) {
         isAvailable = available;

@@ -44,8 +44,8 @@ public class ParkingDataBaseIT {
 
   @BeforeEach
   private void setUpPerTest() throws Exception {
-    when(inputReaderUtil.readSelection()).thenReturn(1);
-    when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+    when(inputReaderUtil.readSelection(System.in)).thenReturn(1);
+    when(inputReaderUtil.readVehicleRegistrationNumber(System.in)).thenReturn("ABCDEF");
     dataBasePrepareService.clearDataBaseEntries();
   }
 

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class App {
   /**
-   * To have different types of messages and more detailed.
+   * The logger allow to display logs on the application.
    */
   private static final Logger logger = LogManager.getLogger("App");
 

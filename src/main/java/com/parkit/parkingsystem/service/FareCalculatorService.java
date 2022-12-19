@@ -25,13 +25,12 @@ public class FareCalculatorService {
   public static final double REDUCTION_CLIENT = 0.95;
 
   /**
-   * This method calcul the price.
+   * This method calculs the price.
    * if the client is a regular client then he willm have a 5% discount.
    * if the client stayed less than 30 minutes, he will pay nothing.
    * @param ticket
    */
   public void calculateFare(Ticket ticket) {
-
     if ((ticket.getOutTime() == null) || (ticket.getOutTime().isBefore(ticket.getInTime()))) {
       throw new IllegalArgumentException(
           "Out time provided is incorrect:" + ticket.getOutTime().toString());

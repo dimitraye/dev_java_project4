@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem.util;
 
+import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,9 +14,10 @@ public class InputReaderUtil {
   /**
    * Object that will contain the simple inputs like int, double, Strings, etc.
    */
-  private static Scanner scan = new Scanner(System.in, "UTF-8");
+  private static Scanner scan;
+
   /**
-   * To have different types of messages and more detailed.
+   *  The logger allow to display logs on the application.
    */
   private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
@@ -24,13 +26,14 @@ public class InputReaderUtil {
    *
    * @return input.
    */
-  public int readSelection() {
+  public int readSelection(InputStream in) {
+    scan = new Scanner(in, "UTF-8");
     try {
       int input = Integer.parseInt(scan.nextLine());
       return input;
     } catch (Exception e) {
       logger.error("Error while reading user input from Shell", e);
-      System.out.println("Error reading input. Please enter valid number for proceeding further");
+      System.err.println("Error reading input. Please enter valid number for proceeding further");
       return -1;
     }
   }
@@ -41,7 +44,8 @@ public class InputReaderUtil {
    * @return the number of the vehicule.
    * @throws Exception
    */
-  public String readVehicleRegistrationNumber() throws Exception {
+  public String readVehicleRegistrationNumber(InputStream in) throws Exception {
+    scan = new Scanner(in, "UTF-8");
     try {
       String vehicleRegNumber = scan.nextLine();
       if (vehicleRegNumber == null || vehicleRegNumber.trim().length() == 0) {
@@ -50,7 +54,7 @@ public class InputReaderUtil {
       return vehicleRegNumber;
     } catch (Exception e) {
       logger.error("Error while reading user input from Shell", e);
-      System.out.println(
+      System.err.println(
           "Error reading input. Please enter a valid string for vehicle registration number");
       throw e;
     }

@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 public class InteractiveShell {
 
   /**
-   * To have different types of messages and more detailed.
+   *  The logger allow to display logs on the application.
    */
   private static final Logger logger = LogManager.getLogger("InteractiveShell");
 
@@ -31,7 +31,7 @@ public class InteractiveShell {
 
     while (continueApp) {
       loadMenu();
-      int option = inputReaderUtil.readSelection();
+      int option = inputReaderUtil.readSelection(System.in);
       switch (option) {
         case 1: {
           parkingService.processIncomingVehicle();
