@@ -14,12 +14,23 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/**
+ * Manage the database access to the table Ticket
+ */
 public class TicketDAO {
 
+  /**
+   *  The logger allow to display logs on the application.
+   */
   private static final Logger logger = LogManager.getLogger("TicketDAO");
 
   public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+  /**
+   * Saves the ticket in the database.
+   * @param ticket
+   * @return a boolean.
+   */
   public boolean saveTicket(Ticket ticket) {
     Connection con = null;
     PreparedStatement ps = null;
@@ -42,6 +53,12 @@ public class TicketDAO {
     return false;
   }
 
+  /**
+   * Get a ticket.
+   * @param vehicleRegNumber
+   * @param isParked
+   * @return the ticket.
+   */
   public Ticket getTicket(String vehicleRegNumber, boolean isParked) {
     Connection con = null;
     Ticket ticket = null;
@@ -78,6 +95,11 @@ public class TicketDAO {
     return ticket;
   }
 
+  /**
+   * Update a ticket.
+   * @param ticket
+   * @return a boolean.
+   */
   public boolean updateTicket(Ticket ticket) {
     Connection con = null;
     PreparedStatement ps = null;
@@ -98,6 +120,11 @@ public class TicketDAO {
     return false;
   }
 
+  /**
+   * Checks if the parking is available.
+   * @param vehicleRegNumber
+   * @return a boolean.
+   */
   public boolean checkParkVehicule(String vehicleRegNumber) {
     Connection con = null;
     boolean isParked = false;
@@ -124,6 +151,11 @@ public class TicketDAO {
   }
 
 
+  /**
+   * Checks if the person that try to park his car is recurrent client.
+   * @param vehicleRegNumber
+   * @return a boolean.
+   */
   public boolean isClient(String vehicleRegNumber) {
     Connection con = null;
     boolean isClient = false;

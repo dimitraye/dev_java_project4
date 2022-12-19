@@ -1,5 +1,8 @@
 package com.parkit.parkingsystem.constants;
 
+/**
+ * This class contains the different SQL requests.
+ */
 public class DBConstants {
 
   public static final String GET_NEXT_PARKING_SPOT =

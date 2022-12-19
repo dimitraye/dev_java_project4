@@ -5,6 +5,9 @@ import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.FareCalculatorService;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +41,12 @@ public class FareCalculatorServiceTest {
     ticket.setOutTime(outTime);
     ticket.setParkingSpot(parkingSpot);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals(ticket.getPrice(), Fare.CAR_RATE_PER_HOUR);
+
+    long durationInMinutes = ChronoUnit.MINUTES.between(ticket.getInTime(), ticket.getOutTime());
+    double expectedFare = Fare.CAR_RATE_PER_HOUR / FareCalculatorService.MINUTES_IN_HOUR * durationInMinutes;
+    double actualFare = ticket.getPrice();
+
+    assertEquals(expectedFare, actualFare);
   }
 
   @Test
@@ -51,7 +59,12 @@ public class FareCalculatorServiceTest {
     ticket.setOutTime(outTime);
     ticket.setParkingSpot(parkingSpot);
     fareCalculatorService.calculateFare(ticket);
-    assertEquals(ticket.getPrice(), Fare.BIKE_RATE_PER_HOUR);
+
+    long durationInMinutes = ChronoUnit.MINUTES.between(ticket.getInTime(), ticket.getOutTime());
+    double expectedFare = Fare.BIKE_RATE_PER_HOUR / FareCalculatorService.MINUTES_IN_HOUR * durationInMinutes;
+    double actualFare = ticket.getPrice();
+
+    assertEquals(expectedFare, actualFare);
   }
 
   @Test

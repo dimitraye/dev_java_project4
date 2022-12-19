@@ -1,5 +1,8 @@
 package com.parkit.parkingsystem.config;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,9 +12,14 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+/**
+ * Manage the connexion to the database.
+ */
 public class DataBaseConfig {
 
+  /**
+   *  The logger allow to display logs on the application.
+   */
   private static final Logger logger = LogManager.getLogger("DataBaseConfig");
 
   /**
@@ -22,6 +30,16 @@ public class DataBaseConfig {
    */
   public Connection getConnection() throws ClassNotFoundException, SQLException {
     Properties prop = new Properties();
+    String fileName = "src/main/resources/connection.properties";
+
+    try (FileInputStream fis = new FileInputStream(fileName)) {
+      prop.load(fis);
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
     String user = prop.getProperty("db.user");
     String password = prop.getProperty("db.password");
     logger.info("Create DB connection");
@@ -46,7 +64,7 @@ public class DataBaseConfig {
   }
 
   /**
-   * Close the prepaer statement.
+   * Close the prepared statement.
    * @param ps represents the prepare statement to be closed.
    */
   public void closePreparedStatement(PreparedStatement ps) {

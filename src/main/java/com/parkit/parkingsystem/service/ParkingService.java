@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * This class is in charge of all the services related to the parking.
@@ -19,7 +18,7 @@ import java.util.Date;
 public class ParkingService {
 
   /**
-   * To have different types of messages and more detailed.
+   *  The logger allow to display logs on the application.
    */
   private static final Logger logger = LogManager.getLogger("ParkingService");
 
@@ -43,12 +42,10 @@ public class ParkingService {
 
   /**
    * Allow to use the properties that have been created above.
-   *
    * @param inputReaderUtil
    * @param parkingSpotDAO
    * @param ticketDAO
    */
-  //
   public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO,
                         TicketDAO ticketDAO) {
     this.inputReaderUtil = inputReaderUtil;
@@ -57,8 +54,7 @@ public class ParkingService {
   }
 
   /**
-   * This method treats about the processus that need to be done when a vehicule enters the parking.
-   *
+   * This method is about the process that is needed to be done when a vehicule enters the parking.
    * @return a ticket.
    */
   public Ticket processIncomingVehicle() {
@@ -77,8 +73,7 @@ public class ParkingService {
       ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
       if (parkingSpot != null && parkingSpot.getId() > 0) {
         parkingSpot.setAvailable(false);
-        parkingSpotDAO.updateParking(
-            parkingSpot);
+        parkingSpotDAO.updateParking(parkingSpot);
 
         LocalDateTime inTime = LocalDateTime.now().withNano(0);
         ticket.setParkingSpot(parkingSpot);
@@ -100,18 +95,16 @@ public class ParkingService {
 
   /**
    * This method get the registration number of the vehicule.
-   *
    * @return the registration number of the vehicule.
    * @throws Exception
    */
   private String getVehichleRegNumber() throws Exception {
     System.out.println("Please type the vehicle registration number and press enter key");
-    return inputReaderUtil.readVehicleRegistrationNumber();
+    return inputReaderUtil.readVehicleRegistrationNumber(System.in);
   }
 
   /**
    * Method that get a parking spot for the vehicule.
-   *
    * @return a parking spot.
    */
   public ParkingSpot getNextParkingNumberIfAvailable() {
@@ -138,11 +131,11 @@ public class ParkingService {
    *
    * @return the type of the vehicule.
    */
-  private ParkingType getVehichleType() {
+  public ParkingType getVehichleType() {
     System.out.println("Please select vehicle type from menu");
     System.out.println("1 CAR");
     System.out.println("2 BIKE");
-    int input = inputReaderUtil.readSelection();
+    int input = inputReaderUtil.readSelection(System.in);
     switch (input) {
       case 1: {
         return ParkingType.CAR;
@@ -151,7 +144,7 @@ public class ParkingService {
         return ParkingType.BIKE;
       }
       default: {
-        System.out.println("Incorrect input provided");
+        System.err.println("Incorrect input provided");
         throw new IllegalArgumentException("Entered input is invalid");
       }
     }

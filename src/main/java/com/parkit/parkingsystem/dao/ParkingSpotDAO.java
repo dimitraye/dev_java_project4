@@ -11,11 +11,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Manage the database access to the table Parking
+ */
 public class ParkingSpotDAO {
+  /**
+   *  The logger allow to display logs on the application.
+   */
   private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
 
   public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+  /**
+   * Get the next slot available.
+   * @param parkingType
+   * @return the next abailable slot.
+   */
   public int getNextAvailableSlot(ParkingType parkingType) {
     Connection con = null;
     int result = -1;
@@ -42,6 +53,11 @@ public class ParkingSpotDAO {
     return result;
   }
 
+  /**
+   * Update the parking table.
+   * @param parkingSpot
+   * @return the parking table from the database.
+   */
   public boolean updateParking(ParkingSpot parkingSpot) {
     Connection con = null;
     PreparedStatement ps = null;
@@ -62,6 +78,11 @@ public class ParkingSpotDAO {
     return false;
   }
 
+  /**
+   * This method tells if the parking is available or not.
+   * @param number
+   * @return a boolean.
+   */
   public boolean getParkingAvailability(int number) {
     Connection con = null;
     boolean avvailability = false;
