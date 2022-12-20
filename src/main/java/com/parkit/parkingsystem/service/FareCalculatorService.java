@@ -15,7 +15,7 @@ public class FareCalculatorService {
   public static final int FREE_TIME_THIRTY_MINS = 30;
 
   /**
-   * This constant will be used in order to compare if the client stayed in the parking for less than 60 minutes.
+   * Calculate the minutes in 1 hour.
    */
   public static final int MINUTES_IN_HOUR = 60;
 
@@ -39,6 +39,7 @@ public class FareCalculatorService {
     long durationInMinutes = ChronoUnit.MINUTES.between(ticket.getInTime(), ticket.getOutTime());
     double reductionClient = ticket.isClient() ? REDUCTION_CLIENT : 1;
 
+    //Ticket Print : If the car has been parked for less than an hour the Ticket price is reduce
     if (durationInMinutes < FREE_TIME_THIRTY_MINS) {
       ticket.setPrice(Fare.RATE_UNDER_HALF_HOUR);
       return;
