@@ -15,10 +15,13 @@ import org.apache.logging.log4j.Logger;
 
 
 /**
- * Test class for the class DataBaseConfig
+ * Class of configuration for the test database.
  */
 public class DataBaseTestConfig extends DataBaseConfig {
 
+  /**
+   * The logger allow to display logs on the application.
+   */
   private static final Logger logger = LogManager.getLogger("DataBaseTestConfig");
 
   /**

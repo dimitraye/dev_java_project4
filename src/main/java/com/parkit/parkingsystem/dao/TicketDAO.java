@@ -24,6 +24,9 @@ public class TicketDAO {
    */
   private static final Logger logger = LogManager.getLogger("TicketDAO");
 
+  /**
+   * Allow to access the database connection.
+   */
   public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
   /**
@@ -152,7 +155,7 @@ public class TicketDAO {
 
 
   /**
-   * Checks if the person that try to park his car is recurrent client.
+   * Checks if the vehicle that try to park has already been parked in the parking.
    * @param vehicleRegNumber
    * @return a boolean.
    */

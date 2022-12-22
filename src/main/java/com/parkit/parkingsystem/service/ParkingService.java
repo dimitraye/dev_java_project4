@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 /**
  * This class is in charge of all the services related to the parking.
  */
-//
 public class ParkingService {
 
   /**
@@ -23,29 +22,24 @@ public class ParkingService {
   private static final Logger logger = LogManager.getLogger("ParkingService");
 
   /**
-   * Properti that allow to use the class FareCalculatorService's methods.
+   * Property that allow to use the class FareCalculatorService's methods.
    */
   private static FareCalculatorService fareCalculatorService = new FareCalculatorService();
 
   /**
-   * Properti that allow to use the class InputReaderUtil's methods.
+   * Property that allow to use the class InputReaderUtil's methods.
    */
   private InputReaderUtil inputReaderUtil;
   /**
-   * Properti that allow to use the class ParkingSpotDAO's methods.
+   * Property that allow to use the class ParkingSpotDAO's methods.
    */
   private ParkingSpotDAO parkingSpotDAO;
   /**
-   * Properti that allow to use the class TicketDAO's methods.
+   * Property that allow to use the class TicketDAO's methods.
    */
   private TicketDAO ticketDAO;
 
-  /**
-   * Allow to use the properties that have been created above.
-   * @param inputReaderUtil
-   * @param parkingSpotDAO
-   * @param ticketDAO
-   */
+
   public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO,
                         TicketDAO ticketDAO) {
     this.inputReaderUtil = inputReaderUtil;
@@ -65,6 +59,7 @@ public class ParkingService {
         throw new Exception("Error vehicule is already parked.");
       }
 
+      //Story 2 : Cehck if the vehicule registration number is arleady registered in the database.
       if (ticketDAO.isClient(vehicleRegNumber)) {
         System.out.println(
             "Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
@@ -104,7 +99,7 @@ public class ParkingService {
   }
 
   /**
-   * Method that get a parking spot for the vehicule.
+   * Method that get a parking spot number for the vehicule if it is available.
    * @return a parking spot.
    */
   public ParkingSpot getNextParkingNumberIfAvailable() {
@@ -128,7 +123,6 @@ public class ParkingService {
 
   /**
    * Method that get the type of the vehicule.
-   *
    * @return the type of the vehicule.
    */
   public ParkingType getVehichleType() {
@@ -152,7 +146,6 @@ public class ParkingService {
 
   /**
    * This method treats about the processus that need to be done when a vehicule leaves the parking.
-   *
    * @return a ticket.
    */
   public Ticket processExitingVehicle() {
@@ -165,7 +158,9 @@ public class ParkingService {
         throw new IllegalArgumentException(
             "There's no ticket assiociated to this registration number.");
       }
+      //Story 2 : Si le vehicule est un client régulier alors setClient ==> true
       ticket.setClient(ticketDAO.isClient(vehicleRegNumber));
+     //Set nano seconds to 0 in order to compare the dates without problems
       LocalDateTime outTime = LocalDateTime.now().withNano(0);
       ticket.setOutTime(outTime);
       fareCalculatorService.calculateFare(ticket);

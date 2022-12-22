@@ -20,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+/**
+ * Test class for the class ParkingService.
+ */
 @ExtendWith(MockitoExtension.class)
 public class ParkingServiceTest {
 
@@ -36,11 +39,10 @@ public class ParkingServiceTest {
   @BeforeEach
   private void setUpPerTest() {
     parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-
   }
 
   /**
-   *
+   *  Verify the actions needed to register an exiting vehicle.
    */
   @Test
   public void processExitingVehicleTest() {
@@ -69,6 +71,9 @@ public class ParkingServiceTest {
     verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
   }
 
+  /**
+   * Verify the actions needed to register an incomming vehicle.
+   */
   @Test
   public void processInComingVehicleTest() {
 
@@ -100,6 +105,10 @@ public class ParkingServiceTest {
   }
 
 
+  /**
+   * Verify that when the value of the type of the car is 1,
+   * it returns the correct parking type (car).
+   */
   @Test
   public void getVehicleTypeShouldReturnCar() {
     when(inputReaderUtil.readSelection(System.in)).thenReturn(1);
@@ -108,6 +117,10 @@ public class ParkingServiceTest {
     assertEquals(ParkingType.CAR, parkingType);
   }
 
+  /**
+   *  Verify that when the value of the type of the car is 2,
+   *  it returns the correct parking type (bike).
+   */
   @Test
   public void getVehicleTypeShouldReturnBike() {
     when(inputReaderUtil.readSelection(System.in)).thenReturn(2);
@@ -116,12 +129,13 @@ public class ParkingServiceTest {
     assertEquals(ParkingType.BIKE, parkingType);
   }
 
+  /**
+   * Verify that when the value of the type of the car isn't 1 or 2, it returns an exception.
+   */
   @Test
   public void getVehicleTypeShouldThrowException() {
     when(inputReaderUtil.readSelection(System.in)).thenReturn(3);
 
     assertThrows(IllegalArgumentException.class, () -> parkingService.getVehichleType());
   }
-
-
 }

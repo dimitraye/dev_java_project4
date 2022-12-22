@@ -25,8 +25,8 @@ public class DataBaseConfig {
   /**
    * Get the connection to the database with the username and the password.
    * @return connection.
-   * @throws ClassNotFoundException to be thronw.
-   * @throws SQLException to be thronw.
+   * @throws ClassNotFoundException to be thrown.
+   * @throws SQLException to be thrown.
    */
   public Connection getConnection() throws ClassNotFoundException, SQLException {
     Properties prop = new Properties();

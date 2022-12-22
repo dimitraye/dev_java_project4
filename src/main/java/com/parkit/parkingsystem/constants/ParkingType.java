@@ -1,7 +1,7 @@
 package com.parkit.parkingsystem.constants;
 
 /**
- * Respresents the two types of parking, a parking for cars and another one for bikes.
+ * Represents the two types of parking spots, a parking for cars and another one for bikes.
  */
 public enum ParkingType {
     CAR,

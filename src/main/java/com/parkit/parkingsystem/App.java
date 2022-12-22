@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Main class of the project.l
+ * Main class of the project.
  */
 public class App {
   /**
