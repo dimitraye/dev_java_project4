@@ -30,6 +30,12 @@ public class ParkingSpot {
         this.isAvailable = isAvailable;
     }
 
+    public ParkingSpot(ParkingSpot parkingSpot) {
+        this.number = parkingSpot.getId();
+        this.parkingType = parkingSpot.getParkingType();
+        this.isAvailable = parkingSpot.isAvailable();
+    }
+
     public int getId() {
         return number;
     }

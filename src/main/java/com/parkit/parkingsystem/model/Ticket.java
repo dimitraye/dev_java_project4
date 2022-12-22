@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem.model;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.time.LocalDateTime;
 
 /**
@@ -56,11 +57,11 @@ public class Ticket {
 
 
   public ParkingSpot getParkingSpot() {
-    return parkingSpot;
+    return new ParkingSpot(parkingSpot);
   }
 
   public void setParkingSpot(ParkingSpot parkingSpot) {
-    this.parkingSpot = parkingSpot;
+    this.parkingSpot = new ParkingSpot(parkingSpot);
   }
 
 
