@@ -89,7 +89,6 @@ public class ParkingDataBaseIT {
 
     //Todo2 : Test2 : Traitement 2 : check that out time are populated correctly in the database
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
     assertEquals(ticket.getOutTime().format(formatter),
         ticketFromDB.getOutTime().format(formatter));
   }

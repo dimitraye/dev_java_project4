@@ -14,7 +14,7 @@ public class InputReaderUtil {
   /**
    * Object that will contain the simple inputs like int, double, Strings, etc.
    */
-  private static Scanner scan;
+  private Scanner scan;
 
   /**
    *  The logger allow to display logs on the application.

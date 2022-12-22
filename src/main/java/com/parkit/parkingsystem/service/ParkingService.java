@@ -159,7 +159,7 @@ public class ParkingService {
             "There's no ticket assiociated to this registration number.");
       }
       //Story 2 : Si le vehicule est un client régulier alors setClient ==> true
-      ticket.setClient(ticketDAO.isClient(vehicleRegNumber));
+       ticket.setClient(ticketDAO.isClient(vehicleRegNumber));
      //Set nano seconds to 0 in order to compare the dates without problems
       LocalDateTime outTime = LocalDateTime.now().withNano(0);
       ticket.setOutTime(outTime);

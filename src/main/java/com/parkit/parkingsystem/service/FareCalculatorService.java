@@ -36,7 +36,7 @@ public class FareCalculatorService {
           "Out time provided is incorrect:" + ticket.getOutTime().toString());
     }
 
-    //Todo1 : Expression de la durée de parkage en minutes
+    //Todo1 : Expression de la durée de stationnement en minutes entre deux dates
     long durationInMinutes = ChronoUnit.MINUTES.between(ticket.getInTime(), ticket.getOutTime());
     //Story 2 : Mise en place (ou non) de la réduction client
     double reductionClient = ticket.isClient() ? REDUCTION_CLIENT : 1;

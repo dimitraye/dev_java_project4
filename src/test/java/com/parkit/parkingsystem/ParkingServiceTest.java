@@ -92,7 +92,7 @@ public class ParkingServiceTest {
       when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
       when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
 
-      when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
+      when(ticketDAO.saveTicket(ticket)).thenReturn(true);
 
     } catch (Exception e) {
       e.printStackTrace();

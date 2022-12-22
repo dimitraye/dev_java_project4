@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -20,7 +21,7 @@ class InputReaderUtilTest {
 
     InputReaderUtil inputReaderUtil = new InputReaderUtil();
     String regNumber = "test";
-    InputStream in = new ByteArrayInputStream(regNumber.getBytes());
+    InputStream in = new ByteArrayInputStream(regNumber.getBytes("UTF-8"));
     String actualResult = inputReaderUtil.readVehicleRegistrationNumber(in);
 
     assertEquals(regNumber, actualResult);
@@ -35,7 +36,7 @@ class InputReaderUtilTest {
 
     InputReaderUtil inputReaderUtil = new InputReaderUtil();
     String regNumber = " ";
-    InputStream in = new ByteArrayInputStream(regNumber.getBytes());
+    InputStream in = new ByteArrayInputStream(regNumber.getBytes("UTF-8"));
 
     assertThrows(IllegalArgumentException.class, () -> inputReaderUtil.readVehicleRegistrationNumber(in));
 
@@ -48,7 +49,7 @@ class InputReaderUtilTest {
   void readSelectionTest() {
     InputReaderUtil inputReaderUtil = new InputReaderUtil();
     String initialString = "2";
-    InputStream in = new ByteArrayInputStream(initialString.getBytes());
+    InputStream in = new ByteArrayInputStream(initialString.getBytes(Charset.defaultCharset()));
     int actualResult = inputReaderUtil.readSelection(in);
     int expectedResult = 2;
 
@@ -62,7 +63,7 @@ class InputReaderUtilTest {
   void readWrongSelectionTest() {
     InputReaderUtil inputReaderUtil = new InputReaderUtil();
     String initialString = "dfg";
-    InputStream in = new ByteArrayInputStream(initialString.getBytes());
+    InputStream in = new ByteArrayInputStream(initialString.getBytes(Charset.defaultCharset()));
     int actualResult = inputReaderUtil.readSelection(in);
     int expectedResult = -1;
 
