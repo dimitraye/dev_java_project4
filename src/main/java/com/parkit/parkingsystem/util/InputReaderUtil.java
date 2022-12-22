@@ -23,7 +23,6 @@ public class InputReaderUtil {
 
   /**
    * Method used to read the choice made by the user between 1, 2 and 3.
-   *
    * @return input.
    */
   public int readSelection(InputStream in) {
@@ -40,7 +39,6 @@ public class InputReaderUtil {
 
   /**
    * Method used in order to read the number registration of the vehicule.
-   *
    * @return the number of the vehicule.
    * @throws Exception
    */

@@ -1,22 +1,23 @@
 package com.parkit.parkingsystem;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.FareCalculatorService;
-import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.LocalDateTime;
-
+/** Test class for the class FareCalculatorService.
+ */
 public class FareCalculatorServiceTest {
+
 
   private static FareCalculatorService fareCalculatorService;
   private Ticket ticket;
@@ -31,6 +32,9 @@ public class FareCalculatorServiceTest {
     ticket = new Ticket();
   }
 
+  /**
+   * Verify that when a car is parked, the price is calulated correctly.
+   */
   @Test
   public void calculateFareCar() {
     LocalDateTime inTime = LocalDateTime.now().minusHours(1);
@@ -49,6 +53,9 @@ public class FareCalculatorServiceTest {
     assertEquals(expectedFare, actualFare);
   }
 
+  /**
+   * Verify that when a bike is parked, the price is calulated correctly.
+   */
   @Test
   public void calculateFareBike() {
     LocalDateTime inTime = LocalDateTime.now().minusHours(1);
@@ -67,6 +74,10 @@ public class FareCalculatorServiceTest {
     assertEquals(expectedFare, actualFare);
   }
 
+  /**
+   * Verify that an exception is thrown when we try to calculate the fare and the type of vehicle
+   * is null.
+   */
   @Test
   public void calculateFareUnkownType() {
     LocalDateTime inTime = LocalDateTime.now().minusHours(1);
@@ -79,6 +90,10 @@ public class FareCalculatorServiceTest {
     assertThrows(NullPointerException.class, () -> fareCalculatorService.calculateFare(ticket));
   }
 
+  /**
+   * Verify that an exception is thrown when we try to calculate the fare but the time of arrival
+   * is after the time of exit
+   */
   @Test
   public void calculateFareBikeWithFutureInTime() {
     LocalDateTime inTime = LocalDateTime.now().plusHours(1);
@@ -91,6 +106,9 @@ public class FareCalculatorServiceTest {
     assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket));
   }
 
+  /**
+   * Verify that the price for a bike that stayed for less than an hour is calculated correctly.
+   */
   @Test
   public void calculateFareBikeWithLessThanOneHourParkingTime() {
     LocalDateTime inTime = LocalDateTime.now().minusMinutes(45);
@@ -104,6 +122,9 @@ public class FareCalculatorServiceTest {
     assertEquals((0.75 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice());
   }
 
+  /**
+   * Verify that the price for a car that stayed for less than an hour is calculated correctly.
+   */
   @Test
   public void calculateFareCarWithLessThanOneHourParkingTime() {
     LocalDateTime inTime = LocalDateTime.now().minusMinutes(45);
@@ -117,6 +138,9 @@ public class FareCalculatorServiceTest {
     assertEquals((0.75 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
   }
 
+  /**
+   * Verify that the price for a car that stayed for more than a day is calculated correctly.
+   */
   @Test
   public void calculateFareCarWithMoreThanADayParkingTime() {
     LocalDateTime inTime = LocalDateTime.now().minusHours(24);
@@ -130,6 +154,10 @@ public class FareCalculatorServiceTest {
     assertEquals((24 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
   }
 
+  /**
+   * Verify that the price for a vehicle that stayed for less than thirty minutes is
+   * calculated correctly (it's should be free).
+   */
   @Test
   public void calculateFareWithLessThanThirtyMinutesParkingTime() {
     LocalDateTime inTime = LocalDateTime.now().minusMinutes(25);
@@ -143,6 +171,10 @@ public class FareCalculatorServiceTest {
     assertEquals(Fare.RATE_UNDER_HALF_HOUR, ticket.getPrice());
   }
 
+  /**
+   * Verify that the price for a vehicle that stayed for more than a day is calculated correctly
+   * with the client reduction because this time the client is a recurrent client.
+   */
   @Test
   public void calculateFareWithMoreThanADayParkingTimeForRecurrentClient() {
     LocalDateTime inTime = LocalDateTime.now().minusHours(24);

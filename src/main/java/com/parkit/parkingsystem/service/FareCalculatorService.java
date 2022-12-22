@@ -15,7 +15,7 @@ public class FareCalculatorService {
   public static final int FREE_TIME_THIRTY_MINS = 30;
 
   /**
-   * Calculate the minutes in 1 hour.
+   * Represents the minutes in 1 hour.
    */
   public static final int MINUTES_IN_HOUR = 60;
 
@@ -26,7 +26,7 @@ public class FareCalculatorService {
 
   /**
    * This method calculs the price.
-   * if the client is a regular client then he willm have a 5% discount.
+   * if the client is a regular client then he will have a 5% discount.
    * if the client stayed less than 30 minutes, he will pay nothing.
    * @param ticket
    */
@@ -36,10 +36,12 @@ public class FareCalculatorService {
           "Out time provided is incorrect:" + ticket.getOutTime().toString());
     }
 
+    //Todo1 : Expression de la durée de parkage en minutes
     long durationInMinutes = ChronoUnit.MINUTES.between(ticket.getInTime(), ticket.getOutTime());
+    //Story 2 : Mise en place (ou non) de la réduction client
     double reductionClient = ticket.isClient() ? REDUCTION_CLIENT : 1;
 
-    //Ticket Print : If the car has been parked for less than an hour the Ticket price is reduce
+    //Story 1 : If the car has been parked for less than an hour the Ticket price is free.
     if (durationInMinutes < FREE_TIME_THIRTY_MINS) {
       ticket.setPrice(Fare.RATE_UNDER_HALF_HOUR);
       return;

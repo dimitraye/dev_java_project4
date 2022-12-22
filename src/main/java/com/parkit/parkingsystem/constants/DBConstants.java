@@ -12,7 +12,7 @@ public class DBConstants {
       "select min(PARKING_NUMBER) from parking where AVAILABLE = true and TYPE = ?";
 
   /**
-   * Update the parking spot status.
+   * Update the parking spot availablity status.
    */
   public static final String UPDATE_PARKING_SPOT =
       "update parking set available = ? where PARKING_NUMBER = ?";
@@ -24,13 +24,13 @@ public class DBConstants {
       "insert into ticket(PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME) "
           + "values(?,?,?,?,?)";
   /**
-   * Update the ticket.
+   * Update the ticket (price and outTime).
    */
   public static final String UPDATE_TICKET = "update ticket set PRICE=?, OUT_TIME=? where ID=?";
 
 
   /**
-   * Get the ticket when the vehicle is still not parked.
+   * Get the ticket associated to a vehicle that is not parked.
    */
   public static final String GET_TICKET_UNPARKED = ""
       + "select t.PARKING_NUMBER, t.ID, t.PRICE, t.IN_TIME, t.OUT_TIME, p.TYPE "
@@ -41,7 +41,7 @@ public class DBConstants {
       + "limit 1";
 
   /**
-   * Get the ticket when the vehicle is parked.
+   * Get the ticket associated to a vehicle that is parked.
    */
   public static final String GET_TICKET_PARKED =
       "select t.PARKING_NUMBER, t.ID, t.PRICE, t.IN_TIME, t.OUT_TIME, p.TYPE "
@@ -67,7 +67,7 @@ public class DBConstants {
           + "and OUT_TIME is null";
 
   /**
-   * Check if the vehicle is has already been registered in the database.
+   * Check if the vehicle has already been registered in the database.
    */
   public static final String CHECK_VEHICLE_RECURRENT =
       "select PARKING_NUMBER "

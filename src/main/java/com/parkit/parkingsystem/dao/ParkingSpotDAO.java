@@ -20,6 +20,9 @@ public class ParkingSpotDAO {
    */
   private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
 
+  /**
+   * Allow to access the database connection.
+   */
   public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
   /**
@@ -79,7 +82,7 @@ public class ParkingSpotDAO {
   }
 
   /**
-   * This method tells if the parking is available or not.
+   * This method tells if the parking spot is available or not.
    * @param number
    * @return a boolean.
    */

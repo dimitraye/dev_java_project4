@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * This class as a graphical interface in the shell between the code and the client.
+ * This class is a graphical interface in the shell between the code and the client.
  */
 public class InteractiveShell {
 
